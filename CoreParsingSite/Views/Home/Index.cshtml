@@ -1,0 +1,122 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h3>@ViewData["Message"]</h3>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Parsing_Page" asp-controller="Home" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="submit" value="СПАРСИТЬ" class="btn btn-default" id="btnUpload" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Price_Check" asp-controller="Home" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="submit" value="ОТСЛЕДИТЬ" class="btn btn-default" id="btnUpload" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@using CoreParsingSite.Models
+@model IndexViewModel
+@{
+
+    ViewBag.Title = "Index";
+}
+
+<h2>Список товаров по одному на странице</h2>
+
+<table class="table">
+    <tr>
+        <th>НОМЕР</th>
+        <th>НАИМЕНОВАНИЕ</th>
+        <th>ЦЕНА</th>
+        <th>ОПИСАНИЕ</th>
+        <th>ФОТО</th>
+    </tr>
+
+    @foreach (var item in Model._Goods)
+    {
+        <tr>
+            <td>
+
+                @item.Id
+            </td>
+            <td>
+
+                @item.Name
+            </td>
+            <td>
+
+                @item.Price
+            </td>
+            <td>
+
+                @item.Stock
+            </td>
+            <td>
+                @if (item.Foto != null)
+                {<img src="data:image/jpeg;base64,@(Convert.ToBase64String(item.Foto))" />}
+            </td>
+        </tr>
+    }
+
+</table>
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       class="btn btn-default btn">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       class="btn btn-default btn">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}
+<br />
+
+
+<h3>Чат на Сигнале (в режиме реального времени)- тест</h3>
+<div class="container">
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-6">&nbsp;</div>
+        <div class="col-6">
+            User..........<input type="text" id="userInput" />
+            <br />
+            Message...<input type="text" id="messageInput" />
+            <input type="button" id="sendButton" value="Send Message" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">&nbsp;</div>
+        <div class="col-6">
+            <ul id="messagesList"></ul>
+        </div>
+    </div>
+</div>
+<script src="~/lib/signalr/signalr.js"></script>
+<script src="~/js/chat.js"></script>
+@*<script src="~/js/es5-chat.js"></script>*@
+
+

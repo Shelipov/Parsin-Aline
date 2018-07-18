@@ -1,0 +1,17 @@
+﻿@model IEnumerable<CoreParsingSite.Controllers.HomeController>
+
+@{
+    ViewData["Title"] = "Price_Check";
+}
+
+<h2>ИЗМЕНИЛИСЬ ЦЕНЫ СЛЕДУЮЩИХ ПОЗИЦИЙ</h2>
+
+@foreach (var name in ViewBag.Names)
+{
+<div>
+    <h2>@name;</h2>
+</div>
+}
+<div>
+    <a asp-controller="Home" asp-action="Index">НА ГЛАВНУЮ</a>
+</div>
